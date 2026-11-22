@@ -250,3 +250,25 @@ body {
         text-align: center; /* Align text to the center */
       }
   }
+/* Disabled "Added to Cart" button */
+.product-button:disabled,
+.product-button.added-to-cart:hover {
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+.product-description {
+    font-size: 14px;
+    color: #555;
+    margin: 6px 0;
+}
+
+.product-cost {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2e7d32;
+}
+
+.cart_quantity_count {
+    color: white;
+}

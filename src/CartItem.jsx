@@ -9,33 +9,64 @@ const CartItem = ({ onContinueShopping }) => {
 
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
- 
+    let total = 0;
+    cart.forEach((item) => {
+      const quantity = item.quantity;
+      const cost = parseFloat(item.cost.substring(1)); // "$15" -> 15
+      total += cost * quantity;
+    });
+    return total;
   };
 
+  // Total number of plants in the cart
+  const calculateTotalQuantity = () => {
+    return cart.reduce((total, item) => total + item.quantity, 0);
+  };
+
+  // Go back to the product listing page
   const handleContinueShopping = (e) => {
-   
+    onContinueShopping(e);
   };
 
+  const handleCheckoutShopping = (e) => {
+    alert('Coming Soon! Checkout functionality will be added in a future update.');
+  };
 
-
+  // Increase this plant's quantity by one
   const handleIncrement = (item) => {
+    dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
   };
 
+  // Decrease this plant's quantity by one; remove it from the cart if it would drop to 0
   const handleDecrement = (item) => {
-   
+    if (item.quantity > 1) {
+      dispatch(updateQuantity({ name: item.name, quantity: item.quantity - 1 }));
+    } else {
+      dispatch(removeItem(item.name));
+    }
   };
 
+  // Delete this plant type from the cart
   const handleRemove = (item) => {
+    dispatch(removeItem(item.name));
   };
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
+    const unitPrice = parseFloat(item.cost.substring(1));
+    return unitPrice * item.quantity;
   };
 
   return (
     <div className="cart-container">
       <h2 style={{ color: 'black' }}>Total Cart Amount: ${calculateTotalAmount()}</h2>
+      <h3 style={{ color: 'black' }} className="cart-total-plants">
+        Total Plants in Cart: {calculateTotalQuantity()}
+      </h3>
       <div>
+        {cart.length === 0 && (
+          <p className="cart-empty">Your cart is empty. Continue shopping to add some plants!</p>
+        )}
         {cart.map(item => (
           <div className="cart-item" key={item.name}>
             <img className="cart-item-image" src={item.image} alt={item.name} />
@@ -57,12 +88,10 @@ const CartItem = ({ onContinueShopping }) => {
       <div className="continue_shopping_btn">
         <button className="get-started-button" onClick={(e) => handleContinueShopping(e)}>Continue Shopping</button>
         <br />
-        <button className="get-started-button1">Checkout</button>
+        <button className="get-started-button1" onClick={(e) => handleCheckoutShopping(e)}>Checkout</button>
       </div>
     </div>
   );
 };
 
 export default CartItem;
-
-

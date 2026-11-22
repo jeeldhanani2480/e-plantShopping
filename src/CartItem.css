@@ -241,3 +241,12 @@
     margin-top: 40px;
   }
   
+.cart-total-plants {
+    margin: 8px 0 16px;
+}
+
+.cart-empty {
+    color: #555;
+    font-size: 18px;
+    margin: 20px 0;
+}
